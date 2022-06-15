@@ -78,4 +78,18 @@ jobs:
             location="${{ env.location }}" \
             vnetName="${{ env.vnet_name }}" \
             image="${{ env.image_name }}" 
+
+      - name: 'Deploy App Gateway'
+        uses: Azure/cli@1.0.4
+        with:
+          inlinescript: |
+            az deployment group create \
+            --resource-group ${{ env.resource_group_name }} \
+            --template-file ./bicep-files/gateway.bicep \
+            --parameters \
+            appGatewayName="${{ env.aci_name }}" \
+            location="${{ env.location }}" \
+            vnetName="${{ env.vnet_name }}" \
+            publicIpAddressName="${{ env.public_ip_address_name }}" \
+            containerGroupName="${{ env.aci_name }}" 
      

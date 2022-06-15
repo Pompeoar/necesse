@@ -32,7 +32,7 @@ resource agnecesse 'Microsoft.Network/applicationGateways@2021-08-01' = {
         id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/gatewayIPConfigurations/appGatewayIpConfig'
         properties: {
           subnet: {
-            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/virtualNetworks/vn-necesse/subnets/sn-ag-necesse'
+            id: vnet.properties.subnets[0].id
           }
         }
       }
@@ -48,7 +48,7 @@ resource agnecesse 'Microsoft.Network/applicationGateways@2021-08-01' = {
         properties: {
           privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: {
-            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/publicIPAddresses/ip-necesse'
+            id: publicIpAddress.id
           }
         }
       }
@@ -69,7 +69,7 @@ resource agnecesse 'Microsoft.Network/applicationGateways@2021-08-01' = {
         properties: {
           backendAddresses: [
             {
-              ipAddress: '10.0.2.4'
+              ipAddress: containerGroup.properties.ipAddress.ip
             }
           ]
         }
@@ -128,11 +128,6 @@ resource agnecesse 'Microsoft.Network/applicationGateways@2021-08-01' = {
         }
       }
     ]
-    routingRules: []
-    probes: []
-    rewriteRuleSets: []
-    redirectConfigurations: []
-    privateLinkConfigurations: []
     enableHttp2: false
     autoscaleConfiguration: {
       minCapacity: 0
