@@ -56,7 +56,7 @@ jobs:
             --resource-group ${{ env.resource_group_name }} \
             --template-file ./bicep-files/aci.bicep \
             --parameters \
-            name ="${{ env.aci_name }}" \
+            name="${{ env.aci_name }}" \
             location="${{ env.location }}" \
             image="${{ env.image_name }}" 
      
