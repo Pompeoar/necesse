@@ -51,6 +51,13 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
               memoryInGB: memoryInGb
             }
           }
+          volumeMounts: [
+            {
+              mountPath: '/config'
+              name: 'config'
+              readOnly: false
+            }
+          ]
         }
       }
     ]
