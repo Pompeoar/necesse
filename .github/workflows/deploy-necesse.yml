@@ -60,6 +60,5 @@ jobs:
             --parameters \
             name ="${{ env.aci_name }}" \
             location="${{ env.location }}" \
-            image="${{ env.image_name }}" \
-            location="${{ env.location }}" 
+            image="${{ env.image_name }}" 
      

@@ -61,7 +61,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
       ports: [
         {
           port: port
-          protocol: 'TCP'
+          protocol: 'UDP'
         }
       ]
     }
