@@ -17,7 +17,8 @@ jobs:
       location: eastus2
       aci_name: aci-necesse
       vnet_name: vn-necesse
-      vnet_subnet_name: sn-necesse
+      ag_subnet_name: sn-ag-necesse
+      aci_subnet_name: sn-aci-necesse
       public_ip_address_name: ip-necesse
       image_name: pixil/necesse
     
@@ -61,7 +62,8 @@ jobs:
             --parameters \
             location="${{ env.location }}" 
             vnetName="${{ env.vnet_name }}" 
-            vnetSubnetName="${{ env.vnet_subnet_name }}" 
+            snSubnetName="${{ env.ag_subnet_name }}" 
+            aciSubnetName="${{ env.aci_subnet_name }}" 
             publicIpAddressName="${{ env.public_ip_address_name }}" 
 
       - name: 'Deploy ACI'

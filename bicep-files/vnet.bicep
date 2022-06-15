@@ -1,6 +1,7 @@
 param location string = 'eastus2'
 param vnetName string = 'vn-necesse'
-param vnetSubnetName string = 'sn-necesse'
+param snSubnetName string = 'sn-ag-necesse'
+param aciSubnetName string = 'sn-aci-necesse'
 param publicIpAddressName string = 'ip-necesse'
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-08-01' = {
@@ -14,16 +15,27 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-08-01' = {
     }
     subnets: [
       {
-        name: vnetSubnetName
+        name: snSubnetName
+        properties: {
+          addressPrefix: '10.0.1.0/24'
+          
+        }
+        type: 'Microsoft.Network/virtualNetworks/subnets'
+      }
+      {
+        name: aciSubnetName
         properties: {
           addressPrefix: '10.0.2.0/24'
+
         }
+        type: 'Microsoft.Network/virtualNetworks/subnets'
       }
     ]
+    
   }
 }
 
-resource symbolicname 'Microsoft.Network/publicIPAddresses@2021-08-01' = {
+resource publicIpAddress 'Microsoft.Network/publicIPAddresses@2021-08-01' = {
   name: publicIpAddressName
   location: location  
   sku: {
