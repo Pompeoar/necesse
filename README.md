@@ -6,8 +6,7 @@ Let's begin.
 
 ## Things you'll need
 1. An Azure Subscription
-2. Powershell with the Azure CLI installed
-3. A Github Account
+2. A Github Account
 
 ## Create a service principle
 Github Actions need a way to speak to Azure. We're going to provide a service principle.

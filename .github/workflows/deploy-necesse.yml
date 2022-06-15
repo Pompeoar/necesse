@@ -16,8 +16,6 @@ jobs:
       resource_group_name: rg-necesse
       aci_name: aci-necesse
       image_name: pixil/necesse
-      keyvault_name: kv-necesse
-      storage_key_secret_name: storageKey
       location: eastus2
     
     steps:      
