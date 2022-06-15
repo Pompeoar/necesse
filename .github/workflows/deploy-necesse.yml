@@ -23,3 +23,25 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: 'Deploy Resource Group'
+        uses: Azure/cli@1.0.4
+        with:
+          inlinescript: |
+            az deployment sub create \
+            --name ${{ env.resource_group_name }} \
+            --location "${{ env.location }}" \
+            --template-file ./bicep-files/resourcegroup.bicep \
+            --paramaters \
+            resourceGroupName=${{ env.resource_group_name}} \
+            location="${{ env.location }}"
+
+      - name: 'Deploy Storage'
+        uses: Azure/cli@1.0.4
+        with:
+          inlinescript: |
+            az deployment group create \
+            --resource-group ${{ env.resource_group_name }} \            
+            --template-file ./bicep-files/storage.bicep \
+            --paramaters \
+            location="${{ env.location }}"
