@@ -1,7 +1,7 @@
 param location string = 'eastus2'
 param vnetName string = 'vn-necesse'
 param vnetSubnetName string = 'sn-necesse'
-param publicIpAddress string = 'ip-necesse'
+param publicIpAddressName string = 'ip-necesse'
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-08-01' = {
   name: vnetName
@@ -24,7 +24,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-08-01' = {
 }
 
 resource symbolicname 'Microsoft.Network/publicIPAddresses@2021-08-01' = {
-  name: publicIpAddress
+  name: publicIpAddressName
   location: location  
   sku: {
     name: 'Standard'    

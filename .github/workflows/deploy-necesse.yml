@@ -14,9 +14,12 @@ jobs:
   
     env:
       resource_group_name: rg-necesse
-      aci_name: aci-necesse
-      image_name: pixil/necesse
       location: eastus2
+      aci_name: aci-necesse
+      vnet_name: vn-necesse
+      vnet_subnet_name: sn-necesse
+      public_ip_address_name: ip-necesse
+      image_name: pixil/necesse
     
     steps:      
       - uses: actions/checkout@v3
@@ -47,6 +50,19 @@ jobs:
             --template-file ./bicep-files/storage.bicep \
             --parameters \
             location="${{ env.location }}" 
+      
+      - name: 'Deploy Virtual Network'
+        uses: Azure/cli@1.0.4
+        with:
+          inlinescript: |
+            az deployment group create \
+            --resource-group ${{ env.resource_group_name }} \
+            --template-file ./bicep-files/vnet.bicep \
+            --parameters \
+            location="${{ env.location }}" 
+            vnetName="${{ env.vnet_name }}" 
+            vnetSubnetName="${{ env.vnet_subnet_name }}" 
+            publicIpAddressName="${{ env.public_ip_address_name }}" 
 
       - name: 'Deploy ACI'
         uses: Azure/cli@1.0.4
