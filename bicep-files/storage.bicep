@@ -9,4 +9,17 @@ resource necesseStorage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   sku: {
     name: 'Standard_LRS'
   }
+
+  resource necesseFiles 'fileServices' = {
+    name: 'default'   
+
+    resource share 'shares' = {
+      name: 'config'
+      properties: {
+        accessTier: 'TransactionOptimized'
+        shareQuota: 5120
+      }
+    }
+  }
 }
+
