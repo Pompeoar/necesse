@@ -50,13 +50,13 @@ jobs:
             --parameters \
             location="${{ env.location }}" 
 
-      - name: 'Deploy Storage'
+      - name: 'Deploy ACI'
         uses: Azure/cli@1.0.4
         with:
           inlinescript: |
             az deployment group create \
             --resource-group ${{ env.resource_group_name }} \
-            --template-file ./bicep-files/storage.bicep \
+            --template-file ./bicep-files/aci.bicep \
             --parameters \
             name ="${{ env.aci_name }}" \
             location="${{ env.location }}" \
