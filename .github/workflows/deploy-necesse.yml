@@ -14,7 +14,7 @@ jobs:
   
     env:
       resource_group_name: rg-necesse
-      location: East US
+      location: eastus2
     
     steps:      
       - uses: actions/checkout@v3
