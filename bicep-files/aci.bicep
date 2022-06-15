@@ -57,14 +57,14 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
               name: 'config'
               readOnly: false
             }
-          ]
+          ]        
         }
       }
     ]
     osType: 'Linux'
     restartPolicy: restartPolicy
     ipAddress: {
-      type: 'Public'
+      type: 'private'
       ports: [
         {
           port: port
