@@ -80,7 +80,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
     }
    subnetIds:[
     {
-      id: '/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/${vnet.properties.subnets[1].name}'
+      id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/virtualNetworks/${vnet.name}/subnets/${vnet.properties.subnets[1].name}'
     }
    ]
     volumes: [
