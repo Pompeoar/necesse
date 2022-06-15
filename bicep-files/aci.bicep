@@ -16,6 +16,8 @@ param cpuCores int = 1
 @description('The amount of memory to allocate to the container in gigabytes.')
 param memoryInGb int = 2
 
+param vnetSubnetName string = 'sn-necesse'
+
 @description('The behavior of Azure runtime if container has stopped.')
 @allowed([
   'Always'
@@ -28,6 +30,10 @@ var storage_name = 'necesse${uniqueString(resourceGroup().id)}'
 
 resource storage 'Microsoft.Storage/storageAccounts@2021-09-01' existing = {
   name: storage_name
+}
+
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2021-08-01' existing = {
+  name: vnetSubnetName
 }
 
 resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01' = {
@@ -70,9 +76,14 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
           port: port
           protocol: 'UDP'
         }
-      ]
-      ip:'10.0.2.4'
+      ]      
     }
+    subnetIds:[
+      {
+        id: subnet.id
+        name: subnet.name
+      }
+    ]
     volumes: [
       {
         azureFile: {

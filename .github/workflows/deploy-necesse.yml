@@ -74,5 +74,6 @@ jobs:
             --parameters \
             name="${{ env.aci_name }}" \
             location="${{ env.location }}" \
+            vnetSubnetName="${{ env.vnet_subnet_name }}" \
             image="${{ env.image_name }}" 
      
