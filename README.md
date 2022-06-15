@@ -1,13 +1,18 @@
 # Deploy Necesse to ACI
-#### About this repo
+## About this repo
 This repo uses Github Actions to run a yml that deploys azure infrastructure via bicep files that ultimately result in a necesse container image running in ACI with a separate storage mounted for persistent data. The steps provided are intended to assist in replicating that exact layout. 
 
 Let's begin.
 
+## Things you'll need
+1. An Azure Subscription
+2. Powershell with the Azure CLI installed
+3. A Github Account
+
 ## Create a service principle
-Github Actions need a way to speak to Azure. We're going to provide 
+Github Actions need a way to speak to Azure. We're going to provide a service principle.
 1. Get your subscription ID
-    1. Head to Azure and copy it or
+    1. Head to Azure Portal and copy it or
     2. run ```az account show``` in powershell while logged into your azure account
 2. Create a service principle
     1. Run ``` az ad sp create-for-rbac --name GithubActions --role Contributor --scopes /subscriptions/<yourSubscriptionId> --sdk-auth```

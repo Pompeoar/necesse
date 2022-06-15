@@ -70,8 +70,8 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
         azureFile: {
           readOnly: false
           shareName: 'config'
-          storageAccountKey: storage.name
-          storageAccountName: storage.listKeys().keys[0].value
+          storageAccountName: storage.name
+          storageAccountKey: storage.listKeys().keys[0].value
         }
         name: 'config'
       }
