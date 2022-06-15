@@ -14,6 +14,10 @@ jobs:
   
     env:
       resource_group_name: rg-necesse
+      aci_name: aci-necesse
+      image_name: pixil/necesse
+      keyvault_name: kv-necesse
+      storage_key_secret_name: storageKey
       location: eastus2
     
     steps:      
@@ -44,7 +48,18 @@ jobs:
             --resource-group ${{ env.resource_group_name }} \
             --template-file ./bicep-files/storage.bicep \
             --parameters \
-            location="${{ env.location }}"
+            location="${{ env.location }}" 
 
-      - name: Deploy Azure Container Instances
-        uses: Azure/aci-deploy@v1
+      - name: 'Deploy Storage'
+        uses: Azure/cli@1.0.4
+        with:
+          inlinescript: |
+            az deployment group create \
+            --resource-group ${{ env.resource_group_name }} \
+            --template-file ./bicep-files/storage.bicep \
+            --parameters \
+            name ="${{ env.aci_name }}" \
+            location="${{ env.location }}" \
+            image="${{ env.image_name }}" \
+            location="${{ env.location }}" 
+     
