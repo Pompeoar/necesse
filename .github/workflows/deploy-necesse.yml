@@ -41,7 +41,10 @@ jobs:
         with:
           inlinescript: |
             az deployment group create \
-            --resource-group ${{ env.resource_group_name }} \            
+            --resource-group ${{ env.resource_group_name }} \
             --template-file ./bicep-files/storage.bicep \
             --parameters \
             location="${{ env.location }}"
+
+      - name: Deploy Azure Container Instances
+        uses: Azure/aci-deploy@v1
