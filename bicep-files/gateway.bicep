@@ -1,48 +1,142 @@
+param appGatewayName string = 'ag-necesse'
+param location string = 'eastus2'
+param vnetName string = 'vn-necesse'
+param publicIpAddressName string = 'ip-necesse'
+param containerGroupName string = 'aci-necesse'
 
-resource appcontainerdelete 'Microsoft.ContainerInstance/containerGroups@2021-10-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2021-08-01' existing = {
+  name: vnetName
+}
+
+resource publicIpAddress 'Microsoft.Network/publicIPAddresses@2021-08-01' existing = {
+  name: publicIpAddressName
+}
+
+resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01' existing = {
+  name: containerGroupName
+}
+
+resource agnecesse 'Microsoft.Network/applicationGateways@2021-08-01' = {
+  name: appGatewayName
+  location: location
+  tags: {
+  }
   properties: {
-    sku: 'Standard'
-    containers: [
+    sku: {
+      name: 'Standard_v2'
+      tier: 'Standard_v2'
+    }
+    gatewayIPConfigurations: [
       {
-        name: 'appcontainer-delete'
+        name: 'appGatewayIpConfig'
+        id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/gatewayIPConfigurations/appGatewayIpConfig'
         properties: {
-          image: 'mcr.microsoft.com/azuredocs/aci-helloworld'
-          ports: [
-            {
-              protocol: 'TCP'
-              port: 80
-            }
-          ]
-          environmentVariables: []
-          resources: {
-            requests: {
-              memoryInGB: '1.5'
-              cpu: '1.0'
-            }
+          subnet: {
+            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/virtualNetworks/vn-necesse/subnets/sn-ag-necesse'
           }
         }
       }
     ]
-    initContainers: []
-    restartPolicy: 'Always'
-    ipAddress: {
-      ports: [
-        {
-          protocol: 'TCP'
-          port: 80
-        }
-      ]
-      type: 'Private'
-    }
-    osType: 'Linux'
-    subnetIds: [
+    sslCertificates: []
+    trustedRootCertificates: []
+    trustedClientCertificates: []
+    sslProfiles: []
+    frontendIPConfigurations: [
       {
-        id: '/subscriptions/e7caf91e-c10d-47b0-b910-ff9cb3c1a400/resourceGroups/rg-necesse/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/myACISubnet'
+        name: 'appGwPublicFrontendIp'
+        id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/frontendIPConfigurations/appGwPublicFrontendIp'
+        properties: {
+          privateIPAllocationMethod: 'Dynamic'
+          publicIPAddress: {
+            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/publicIPAddresses/ip-necesse'
+          }
+        }
       }
     ]
-  }
-  name: 'appcontainer-delete'
-  location: 'eastus'
-  tags: {
+    frontendPorts: [
+      {
+        name: 'port_14159'
+        id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/frontendPorts/port_14159'
+        properties: {
+          port: 14159
+        }
+      }
+    ]
+    backendAddressPools: [
+      {
+        name: 'backend-pool-necesse'
+        id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/backendAddressPools/backend-pool-necesse'
+        properties: {
+          backendAddresses: [
+            {
+              ipAddress: '10.0.2.4'
+            }
+          ]
+        }
+      }
+    ]
+    loadDistributionPolicies: []
+    backendHttpSettingsCollection: [
+      {
+        name: 'backend-settings-necesse'
+        id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/backendHttpSettingsCollection/backend-settings-necesse'
+        properties: {
+          port: 14159
+          protocol: 'Http'
+          cookieBasedAffinity: 'Disabled'
+          pickHostNameFromBackendAddress: false
+          requestTimeout: 20
+        }
+      }
+    ]
+    backendSettingsCollection: []
+    httpListeners: [
+      {
+        name: 'listener-necesse'
+        id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/httpListeners/listener-necesse'
+        properties: {
+          frontendIPConfiguration: {
+            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/frontendIPConfigurations/appGwPublicFrontendIp'
+          }
+          frontendPort: {
+            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/frontendPorts/port_14159'
+          }
+          protocol: 'Http'
+          hostNames: []
+          requireServerNameIndication: false
+        }
+      }
+    ]
+    listeners: []
+    urlPathMaps: []
+    requestRoutingRules: [
+      {
+        name: 'routing-rule-necesse'
+        id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/requestRoutingRules/routing-rule-necesse'
+        properties: {
+          ruleType: 'Basic'
+          priority: 1
+          httpListener: {
+            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/httpListeners/listener-necesse'
+          }
+          backendAddressPool: {
+            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/backendAddressPools/backend-pool-necesse'
+          }
+          backendHttpSettings: {
+            id: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/applicationGateways/ag-necesse/backendHttpSettingsCollection/backend-settings-necesse'
+          }
+        }
+      }
+    ]
+    routingRules: []
+    probes: []
+    rewriteRuleSets: []
+    redirectConfigurations: []
+    privateLinkConfigurations: []
+    enableHttp2: false
+    autoscaleConfiguration: {
+      minCapacity: 0
+      maxCapacity: 10
+    }
   }
 }
