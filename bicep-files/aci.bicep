@@ -71,6 +71,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
           protocol: 'UDP'
         }
       ]
+      ip:'10.0.2.4'
     }
     volumes: [
       {
