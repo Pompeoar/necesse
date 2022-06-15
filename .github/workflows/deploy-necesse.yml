@@ -21,6 +21,7 @@ jobs:
       aci_subnet_name: sn-aci-necesse
       public_ip_address_name: ip-necesse
       image_name: pixil/necesse
+      app_gateway_name: ag-necesse
     
     steps:      
       - uses: actions/checkout@v3
@@ -87,7 +88,7 @@ jobs:
             --resource-group ${{ env.resource_group_name }} \
             --template-file ./bicep-files/gateway.bicep \
             --parameters \
-            appGatewayName="${{ env.aci_name }}" \
+            appGatewayName="${{ env.app_gateway_name }}" \
             location="${{ env.location }}" \
             vnetName="${{ env.vnet_name }}" \
             publicIpAddressName="${{ env.public_ip_address_name }}" \
