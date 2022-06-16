@@ -75,7 +75,6 @@ resource agnecesse 'Microsoft.Network/applicationGateways@2021-08-01' = {
         }
       }
     ]
-    loadDistributionPolicies: []
     backendHttpSettingsCollection: [
       {
         name: 'backend-settings-necesse'
@@ -89,7 +88,6 @@ resource agnecesse 'Microsoft.Network/applicationGateways@2021-08-01' = {
         }
       }
     ]
-    backendSettingsCollection: []
     httpListeners: [
       {
         name: 'listener-necesse'
