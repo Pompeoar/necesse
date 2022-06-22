@@ -40,7 +40,6 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
   name: name
   location: location
   properties: {
-    sku: 'Standard'
     containers: [
       {
         name: name
@@ -71,7 +70,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
     osType: 'Linux'
     restartPolicy: restartPolicy
     ipAddress: {
-      type: 'private'
+      type: 'Public'
       ports: [
         {
           port: port
