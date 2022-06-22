@@ -17,7 +17,7 @@ resource loadBalancerExternal 'Microsoft.Network/loadBalancers@2021-08-01' = {
   name: lbName
   location: location
   sku: {
-    name: 'Stanard'
+    name: 'Standard'
     tier: 'Regional'
   }
   properties: {
