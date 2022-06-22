@@ -14,6 +14,7 @@ jobs:
   
     env:
       resource_group_name: rg-necesse
+      location: eastus2
       aci_name: aci-necesse
       vnet_name: vn-necesse
       aci_subnet_name: sn-aci-necesse
