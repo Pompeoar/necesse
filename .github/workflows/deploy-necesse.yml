@@ -19,7 +19,6 @@ jobs:
       aci_subnet_name: sn-aci-necesse
       public_ip_address_name: ip-necesse
       image_name: pixil/necesse
-      app_gateway_name: ag-necesse
       load_balancer_name: lb-necesse
     
     steps:      
