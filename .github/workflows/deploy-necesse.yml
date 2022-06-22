@@ -17,11 +17,11 @@ jobs:
       location: eastus2
       aci_name: aci-necesse
       vnet_name: vn-necesse
-      ag_subnet_name: sn-ag-necesse
       aci_subnet_name: sn-aci-necesse
       public_ip_address_name: ip-necesse
       image_name: pixil/necesse
       app_gateway_name: ag-necesse
+      load_balancer_name: lb-necesse
     
     steps:      
       - uses: actions/checkout@v3
@@ -63,7 +63,6 @@ jobs:
             --parameters \
             location="${{ env.location }}" 
             vnetName="${{ env.vnet_name }}" 
-            snSubnetName="${{ env.ag_subnet_name }}" 
             aciSubnetName="${{ env.aci_subnet_name }}" 
             publicIpAddressName="${{ env.public_ip_address_name }}" 
 
@@ -80,17 +79,16 @@ jobs:
             vnetName="${{ env.vnet_name }}" \
             image="${{ env.image_name }}" 
 
-      - name: 'Deploy App Gateway'
+      - name: 'Deploy Load Balancer'
         uses: Azure/cli@1.0.4
         with:
           inlinescript: |
             az deployment group create \
             --resource-group ${{ env.resource_group_name }} \
-            --template-file ./bicep-files/gateway.bicep \
+            --template-file ./bicep-files/loadbalancer.bicep \
             --parameters \
-            appGatewayName="${{ env.app_gateway_name }}" \
+            lbName="${{ env.load_balancer_name }}" \
             location="${{ env.location }}" \
+            publicIpName="${{ env.public_ip_address_name }}" \
             vnetName="${{ env.vnet_name }}" \
-            publicIpAddressName="${{ env.public_ip_address_name }}" \
-            containerGroupName="${{ env.aci_name }}" 
      

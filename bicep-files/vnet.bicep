@@ -1,6 +1,5 @@
 param location string = 'eastus2'
 param vnetName string = 'vn-necesse'
-param snSubnetName string = 'sn-ag-necesse'
 param aciSubnetName string = 'sn-aci-necesse'
 param publicIpAddressName string = 'ip-necesse'
 
@@ -15,25 +14,16 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-08-01' = {
     }
     subnets: [
       {
-        name: snSubnetName
-        properties: {
-          addressPrefix: '10.0.1.0/24'
-          delegations: []
-          privateEndpointNetworkPolicies: 'Enabled'
-          privateLinkServiceNetworkPolicies: 'Enabled'
-        }
-        type: 'Microsoft.Network/virtualNetworks/subnets'
-      }
-      {
         name: aciSubnetName
         properties: {
-          addressPrefix: '10.0.2.0/24'
+          addressPrefix: '10.0.0.0/24'
           delegations: [
             {
               name: 'Microsoft.ContainerInstance/containerGroups'
               properties: {
                 serviceName: 'Microsoft.ContainerInstance/containerGroups'
               }
+              type: 'Microsoft.Network/virtualNetworks/subnets/delegations'
             }
           ]
           privateEndpointNetworkPolicies: 'Enabled'
@@ -52,7 +42,6 @@ resource publicIpAddress 'Microsoft.Network/publicIPAddresses@2021-08-01' = {
     name: 'Standard'
   }
   properties: {
-    ipAddress: '20.22.215.192'
     publicIPAddressVersion: 'IPv4'
     publicIPAllocationMethod: 'Static'
   }

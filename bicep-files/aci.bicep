@@ -14,7 +14,7 @@ param port int = 14159
 param cpuCores int = 1
 
 @description('The amount of memory to allocate to the container in gigabytes.')
-param memoryInGb int = 1
+param memoryInGb int = 2
 
 param vnetName string = 'vn-necesse'
 
@@ -81,7 +81,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
     }
     subnetIds: [
       {
-        id: vnet.properties.subnets[1].id
+        id: vnet.properties.subnets[0].id
       }
     ]
     volumes: [
