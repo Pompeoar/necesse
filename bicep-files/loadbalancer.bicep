@@ -26,7 +26,6 @@ resource loadBalancerExternal 'Microsoft.Network/loadBalancers@2021-08-01' = {
         name: frontEndIpConfigName
         properties: {
           publicIPAddress: {
-            privateIPAllocationMethod: 'Dynamic'
             id: publicIp.id
           }
         }
